@@ -5,6 +5,10 @@
  * @returns {string} - the new string without extra symbols according passed size
  */
 export function trimSymbols(string, size) {
+  if (typeof size === 'undefined') {
+    return string;
+  }
+
   let readyString = '';
   let count = 1;
 
@@ -25,9 +29,6 @@ export function trimSymbols(string, size) {
         count = 1;
       }
     }
-  }
-  if (typeof size === 'undefined') {
-    return string;
   }
   return readyString;
 }

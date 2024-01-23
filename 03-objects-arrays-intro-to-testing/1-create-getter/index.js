@@ -9,16 +9,13 @@ export function createGetter(path) {
   return function (obj) {
     let data = obj;
 
-    if (!splitPath.length) {
-      return undefined;
-    }
+    if (!splitPath.length) {return;}
 
     for (let key = 0; key < splitPath.length; key++) {
       if (data.hasOwnProperty(splitPath[key])) {
         data = data[splitPath[key]];
       } else {
-        data = undefined;
-        break;
+        return;
       }
     }
     return data;
