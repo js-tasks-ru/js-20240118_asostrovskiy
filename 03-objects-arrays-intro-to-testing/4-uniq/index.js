@@ -5,8 +5,5 @@
  */
 export function uniq(arr) {
   if (typeof arr === 'undefined') {return [];}
-
-  const uniq = new Set();
-  arr.forEach(i => uniq.add(i));
-  return Array.from(uniq);
+  return Array.from(new Set(arr));
 }
