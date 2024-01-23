@@ -27,7 +27,7 @@ export function trimSymbols(string, size) {
     }
   }
   if (typeof size === 'undefined') {
-    readyString = string;
+    return string;
   }
   return readyString;
 }
