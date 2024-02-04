@@ -8,7 +8,7 @@ export default class ColumnChart {
 	  this.value = value;
 	  this.link = link;
 	  this.formatHeading = formatHeading;
-	  this.element = this.createElement(this.defaultTemplate());
+	  this.element = this.createElement(this.createTemplate());
 	}
 
 	createElement(temp) {
@@ -27,10 +27,10 @@ export default class ColumnChart {
 
 	update(value) {
 	  this.data = value;
-	  this.element.querySelector('[data-element="body"]').innerHTML = this.createCharts(value);
+	  this.element.querySelector('[data-element="body"]').innerHTML = this.createColumnsTemplate(value);
 	}
 
-	createCharts(arr) {
+	createColumnsTemplate(arr) {
 	  if (!arr.length) { return ''; }
 	  const maxValue = Math.max(...arr);
 	  return arr.map(i => {
@@ -38,8 +38,7 @@ export default class ColumnChart {
 	  }).join('');
 	}
 
-	defaultTemplate() {
-	  console.log(this.data);
+	createTemplate() {
 	  return `
 		<div class="column-chart ${!this.data.length ? 'column-chart_loading' : ''}" style="--chart-height: ${this.chartHeight}">
 		<div class="column-chart__title">
@@ -49,7 +48,7 @@ export default class ColumnChart {
 		<div class="column-chart__container">
 		  <div data-element="header" class="column-chart__header">${this.formatHeading(this.value)}</div>
 		  <div data-element="body" class="column-chart__chart">
-		  	${this.createCharts(this.data)}
+		  	${this.createColumnsTemplate(this.data)}
 		  </div>
 		</div>
 	  </div>`;
