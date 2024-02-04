@@ -1,5 +1,6 @@
 export default class NotificationMessage {
-static lastElement
+	static lastElement
+	setTimeoutId
 
 	constructor(message = 'no', { duration = 2000, type = 'success' } = {}) {
 		this.message = message;
@@ -28,13 +29,13 @@ static lastElement
 	}
 
 	show(cont = document.body) {
-		if(NotificationMessage.lastElement) {
+		if (NotificationMessage.lastElement) {
 			NotificationMessage.lastElement.remove();
 		}
 		NotificationMessage.lastElement = this;
 		cont.append(this.element);
 
-		setTimeout(() => this.destroy(), this.duration);
+		this.setTimeoutId = setTimeout(() => this.destroy(), this.duration);
 	}
 
 	remove() {
@@ -42,6 +43,9 @@ static lastElement
 	}
 
 	destroy() {
+		if (this.setTimeoutId) {
+			clearTimeout(this.setTimeoutId);
+		}
 		this.remove();
 	}
 }
