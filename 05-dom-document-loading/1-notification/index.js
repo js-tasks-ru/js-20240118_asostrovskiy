@@ -1,4 +1,6 @@
 export default class NotificationMessage {
+static lastElement
+
 	constructor(message = 'no', { duration = 2000, type = 'success' } = {}) {
 		this.message = message;
 		this.duration = duration;
@@ -14,23 +16,24 @@ export default class NotificationMessage {
 
 	createTemplate() {
 		return `
-		<div class="notification ${this.type}" style="--value:${this.duration}ms">
+		<div id="notice_id" class="notification ${this.type}" style="--value:${this.duration}ms">
 			<div class="timer"></div>
 			<div class="inner-wrapper">
-			<div class="notification-header">success</div>
-			<div class="notification-body">
-				${this.message}
-			</div>
+				<div class="notification-header">success</div>
+				<div class="notification-body">
+					${this.message}
+				</div>
 			</div>
 	  </div>`
 	}
 
-	show() {
-		if (window.notice_id) {
-			delete window.notice_id.remove();
+	show(cont = document.body) {
+		if(NotificationMessage.lastElement) {
+			NotificationMessage.lastElement.remove();
 		}
+		NotificationMessage.lastElement = this;
+		cont.append(this.element);
 
-		document.body.append(this.element);
 		setTimeout(() => this.destroy(), this.duration);
 	}
 
