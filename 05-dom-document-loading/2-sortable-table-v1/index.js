@@ -1,10 +1,18 @@
 export default class SortableTable {
+	subElements = {}
+
   constructor(headerConfig = [], data = []) {
     this.headerConfig = headerConfig;
     this.data = data;
     this.element = this.createElement(this.createTemplateElement());
+	this.selectSubElements();
   }
 
+  selectSubElements() {
+    this.element.querySelectorAll('[data-element]').forEach(element => {
+      this.subElements[element.dataset.element] = element;
+    });
+  }
 
   createElement(cont) {
     const elem = document.createElement('div');
@@ -76,23 +84,24 @@ export default class SortableTable {
   // METHODS
 
   sort(fieldValue, orderValue) {
-    const arr = [...this.data].sort((a, b) => {
-      if (orderValue === 'desc') {
-		console.log(typeof a[fieldValue]);
-        if (typeof a[fieldValue] === 'string') {
-          return b[fieldValue].localeCompare(a[fieldValue], 'ru-en', { caseFirst: 'upper' });
-        }
+    const orders = {
+      'desc': 1,
+      'asc': -1,
+    }
 
-        return b[fieldValue] - a[fieldValue];
+    const arr = [...this.data].sort((itemA, itemB) => {
+      const k = orders[orderValue]
+      const valueA = itemA[fieldValue];
+      const valueB = itemB[fieldValue];
+
+      if (typeof valueA === 'string') {
+        return k * valueB.localeCompare(valueA, 'ru-en', { caseFirst: 'upper' });
       }
 
-      if (typeof a[fieldValue] === 'string') {
-        return a[fieldValue].localeCompare(b[fieldValue], 'ru-en', { caseFirst: 'upper' });
-      }
-      return a[fieldValue] - b[fieldValue];
+      return  k * (valueB - valueA);
     });
 
-    this.element.querySelector('[data-element="body"]').innerHTML = this.createRowsBody(arr);
+    this.subElements.body.innerHTML = this.createRowsBody(arr);
   }
 
 
