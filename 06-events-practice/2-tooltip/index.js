@@ -17,22 +17,18 @@ class Tooltip {
 		return `<div class="tooltip">${content}</div>`
 	}
 
-	render() {
-
-	}
-
 	pointerover(e) {
 		if (e.target.dataset?.tooltip) {
 			this.element = this.createElement(this.createTemplate(e.target.dataset?.tooltip));
 			e.target.append(this.element);
+			document.addEventListener('mousemove', (e) => this.render(e));
 		}
-
 	}
 
 	pointerout(e) {
 		if (e.target.dataset?.tooltip) {
 			this.remove();
-			document.body.removeEventListener('mousemove', () => this.render());
+			document.body.removeEventListener('mousemove', (e) => this.render(e));
 		}
 	}
 
@@ -43,12 +39,9 @@ class Tooltip {
 		}
 	}
 
-
-
 	initialize() {
-		document.addEventListener('mousemove', (e) => this.render(e));
-		document.body.addEventListener('pointerover', (e) => this.pointerover(e));
 		document.body.addEventListener('pointerout', (e) => this.pointerout(e));
+		document.body.addEventListener('pointerover', (e) => this.pointerover(e));
 	}
 
 	remove() {
