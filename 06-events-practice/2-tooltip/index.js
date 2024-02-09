@@ -29,6 +29,13 @@ class Tooltip {
 
 	}
 
+	pointerout(e) {
+		if (e.target.dataset?.tooltip) {
+			this.remove();
+			document.body.removeEventListener('mousemove', () => this.render());
+		}
+	}
+
 	render(e) {
 		if(this.element) {
 			this.element.style.left = e.clientX + 'px';
@@ -36,12 +43,6 @@ class Tooltip {
 		}
 	}
 
-	pointerout(e) {
-		if (e.target.dataset?.tooltip) {
-			this.remove();
-			document.body.removeEventListener('mousemove', () => this.render());
-		}
-	}
 
 
 	initialize() {
