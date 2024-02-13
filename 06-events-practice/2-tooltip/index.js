@@ -22,8 +22,8 @@ class Tooltip {
 
 	pointerover(e) {
 		if (e.target.dataset?.tooltip) {
-			this.element.innerHTML = e.target.dataset?.tooltip;
-			this.render(e.target);
+			this.render(e.target.dataset?.tooltip);
+			document.body.addEventListener('mousemove', this.handleMouseOver);
 		}
 	}
 
@@ -41,18 +41,19 @@ class Tooltip {
 	pointerout(e) {
 		if (e.target.dataset?.tooltip) {
 			this.remove();
-			// document.body.removeEventListener('mousemove', this.handleMouseOver);
+			document.body.removeEventListener('mousemove', this.handleMouseOver);
 		}
 	}
 
-	render(conteiner) {
-		conteiner.append(this.element);
+	render(text) {
+		this.element.innerHTML = text;
+		document.body.append(this.element);
 	}
 
 	initialize() {
 		document.body.addEventListener('pointerout', this.handlePointerout);
 		document.body.addEventListener('pointerover', this.handlePointerover);
-		document.body.addEventListener('mousemove', this.handleMouseOver);
+
 	}
 
 	remove() {
