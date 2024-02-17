@@ -5,6 +5,7 @@ const BACKEND_URL = 'https://course-js.javascript.ru';
 export default class ColumnChart {
 	chartHeight = 50;
 	data = []
+	subElements = {}
 
 	constructor({ url = '', range = {}, label = '', link = '', formatHeading = v => v } = {}) {
 	  this.url = url;
@@ -13,8 +14,15 @@ export default class ColumnChart {
 	  this.link = link;
 	  this.formatHeading = formatHeading;
 	  this.element = this.createElement(this.createTemplate());
+	  this.selectSubElements();
 	  this.update(range.from, range.to);
 	}
+
+	selectSubElements() {
+		this.element.querySelectorAll('[data-element]').forEach(element => {
+		  this.subElements[element.dataset.element] = element;
+		});
+	  }
 
 	createElement(temp) {
 	  const elem = document.createElement('div');
@@ -70,12 +78,13 @@ export default class ColumnChart {
 	  this.element.querySelector('[data-element="header"]').innerHTML = this.formatHeading(this.getTotalValue);
 	  this.element.querySelector('[data-element="body"]').innerHTML = this.createColumnsTemplate(Object.values(this.data));
 	  this.viewLoader();
-	  return this.data
+	  return this.data;
 	}
 
 
 	destroy() {
 	  this.remove();
+	  this.subElements = {};
 	}
 
 	remove() {
