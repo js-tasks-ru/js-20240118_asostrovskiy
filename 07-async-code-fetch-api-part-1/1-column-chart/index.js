@@ -6,7 +6,7 @@ const BACKEND_URL = 'https://course-js.javascript.ru';
 export default class ColumnChart extends BaseColumnChart {
 	subElements = {}
 
-	constructor({ url, range, ...props }) {
+	constructor({ url, range, ...props } = {}) {
 		super(props);
 		this.url = url;
 		this.value = this.calculateValue();
