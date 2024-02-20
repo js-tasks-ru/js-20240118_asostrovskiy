@@ -41,7 +41,8 @@ export default class ColumnChart extends BaseColumnChart {
 
 	async update(from, to) {
 		this.data = await this.getData(this.url, from, to);
-		this.subElements.header.innerHTML = this.formatHeading(this.calculateValue());
+		this.value = this.calculateValue();
+		this.subElements.header.innerHTML = this.formatHeading(this.value);
 		this.subElements.body.innerHTML = this.createColumnsTemplate(Object.values(this.data));
 		this.viewLoader();
 		return this.data;
